@@ -82,7 +82,7 @@ class PlayMusicFragment : Fragment() {
             return
     }
     private fun playPreviousMusic(i : Int){
-        if ((index - 1) > 0){
+        if ((index - 1) >= 0){
             index--
             music = musicList[index]
             title = music.title

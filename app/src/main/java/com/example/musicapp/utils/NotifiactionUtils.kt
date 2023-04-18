@@ -74,7 +74,7 @@ fun sendNotification(context: Context, index : Int, musicList : List<Music>, isP
 
     val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_baseline_queue_music_24)
-        .setContentTitle("${music.title} index $index")
+        .setContentTitle("${music.title}")
         .setStyle(NotificationCompat.DecoratedCustomViewStyle())
         .setPriority(Notification.PRIORITY_LOW)
         .addAction(R.drawable.ic_baseline_skip_previous_32, "Previous", pendingPreviousIntent)

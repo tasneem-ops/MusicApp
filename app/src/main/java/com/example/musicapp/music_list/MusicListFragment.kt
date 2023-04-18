@@ -31,9 +31,9 @@ import java.util.concurrent.TimeUnit
 
 class MusicListFragment : Fragment() {
 
-private lateinit var binding: FragmentMusicListBinding
-private lateinit var adapter: MusicListAdapter
-var musicList = mutableListOf<Music>()
+    private lateinit var binding: FragmentMusicListBinding
+    private lateinit var adapter: MusicListAdapter
+    var musicList = mutableListOf<Music>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,8 +56,8 @@ var musicList = mutableListOf<Music>()
         binding.lifecycleOwner = this
         binding.musicList.adapter = adapter
         requestStoragePermissions()
-        val db = DBHelper(requireContext(), null)
 
+        val db = DBHelper(requireContext(), null)
         binding.btnSearch.setOnClickListener {
             val searchOutputList = mutableListOf<Music>()
             val searchText = binding.editText.text.toString()
@@ -84,7 +84,6 @@ var musicList = mutableListOf<Music>()
             musicList = loadMusic().toMutableList()
             adapter.submitList(musicList)
             adapter.notifyDataSetChanged()
-
             musicList.forEach { music ->
                 db.addRecord(music.title, music.uri.toString(), music.duration, music.album , music.id)
             }
@@ -92,16 +91,20 @@ var musicList = mutableListOf<Music>()
     }
 
     private fun requestStoragePermissions(){
-        val readPermission = ContextCompat.checkSelfPermission(requireContext(),
-            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-        val permissionsArray = mutableListOf<String>()
-        if (!readPermission)
-            permissionsArray.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        if(!checkStoragePermission()){
+            val readPermission = ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+            val permissionsArray = mutableListOf<String>()
+            if (!readPermission)
+                permissionsArray.add(Manifest.permission.READ_EXTERNAL_STORAGE)
 
-        if (permissionsArray.isNotEmpty()){
-            ActivityCompat.requestPermissions(requireActivity(), permissionsArray.toTypedArray(), requestCodeStorage)
+            if (permissionsArray.isNotEmpty()){
+                ActivityCompat.requestPermissions(requireActivity(), permissionsArray.toTypedArray(), requestCodeStorage)
+            }
         }
+
     }
+
     private fun checkStoragePermission(): Boolean{
         val readPermission = ContextCompat.checkSelfPermission(requireContext(),
             Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED

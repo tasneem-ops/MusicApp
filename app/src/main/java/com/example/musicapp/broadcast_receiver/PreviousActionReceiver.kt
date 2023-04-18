@@ -30,7 +30,7 @@ class PreviousActionReceiver() : BroadcastReceiver() {
 //        Toast.makeText(context, "Previous, current index = $index, current list size ${musicList?.size}", Toast.LENGTH_SHORT).show()
 
         if (index != null && musicList != null) {
-            if ((index - 1) > 0){
+            if ((index - 1) >= 0){
                 index--
                 music = musicList!![index]
                 sendNotification(context!!, index, musicList , true)
